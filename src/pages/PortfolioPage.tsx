@@ -6,7 +6,6 @@ import LogoLoop from '@/components/ui/LogoLoop';
 import type { LogoItem } from '@/components/ui/LogoLoop';
 import VariableProximity from '@/components/ui/VariableProximity';
 import PixelCard from '@/components/ui/PixelCard';
-import AeroShards from '@/components/ui/AeroShards';
 import { usePortfolio } from '@/context/PortfolioContext';
 import { renderIconByKey } from '@/lib/iconsMap';
 import { cn } from '@/lib/utils';
@@ -154,54 +153,18 @@ export function PortfolioPage() {
           
           {/* Left Column: Fixed / Sticky Bio with VariableProximity & Interactive Contact Links */}
           <aside id="about" className="lg:col-span-4 space-y-6 sm:space-y-8 lg:sticky lg:top-12">
-            <div ref={bioContainerRef} className="relative cursor-default p-4 -m-4 sm:p-5 sm:-m-5 rounded-2xl overflow-hidden group">
-              {/* AeroShards Ambient Dynamic Background Behind Bio with Reduced Opacity */}
-              <div className="absolute inset-0 w-full h-full pointer-events-none opacity-25 group-hover:opacity-40 transition-opacity duration-700 z-0">
-                <AeroShards
-                  backgroundColor="transparent"
-                  shardColor="#ec4899"
-                  accentColor="#a855f7"
-                  placement="full"
-                  flow="stream"
-                  material="pearl"
-                  detail="balanced"
-                  effect="none"
-                  scale={1.1}
-                  spread={0.9}
-                  depth={0.8}
-                  speed={0.7}
-                  spin={0.7}
-                  interaction="repel"
-                  density={1.2}
-                  shardSize={1.0}
-                  stretch={1.0}
-                  turbulence={0.8}
-                  glow={1.0}
-                  edgeSoftness={2}
-                  bloom={0.35}
-                  grain={0.03}
-                  chromaticAberration={0.005}
-                  transitionDuration={1}
-                  interactionRadius={1.3}
-                  interactionStrength={0.4}
-                  rippleIntensity={0.8}
-                  holdToGather={true}
+            <div ref={bioContainerRef} className="cursor-default">
+              <p className="text-sm sm:text-base text-[#D1D5DB] leading-relaxed">
+                <VariableProximity
+                  label={profile.bio}
+                  fromFontVariationSettings="'wght' 350, 'opsz' 14"
+                  toFontVariationSettings="'wght' 800, 'opsz' 40"
+                  containerRef={bioContainerRef}
+                  radius={85}
+                  falloff="linear"
+                  className="text-[#D1D5DB] text-sm sm:text-base inline leading-relaxed"
                 />
-              </div>
-
-              <div className="relative z-10">
-                <p className="text-sm sm:text-base text-[#D1D5DB] leading-relaxed">
-                  <VariableProximity
-                    label={profile.bio}
-                    fromFontVariationSettings="'wght' 350, 'opsz' 14"
-                    toFontVariationSettings="'wght' 800, 'opsz' 40"
-                    containerRef={bioContainerRef}
-                    radius={85}
-                    falloff="linear"
-                    className="text-[#D1D5DB] text-sm sm:text-base inline leading-relaxed"
-                  />
-                </p>
-              </div>
+              </p>
             </div>
 
             {/* Interactive Contact Links with Micro-Animations & Glow */}
