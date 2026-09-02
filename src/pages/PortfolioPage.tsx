@@ -98,7 +98,7 @@ export function PortfolioPage() {
                   colors={profile.gradientColors?.length ? profile.gradientColors : ["#ec4899", "#d9cdd8", "#a855f7", "#ec4899"]}
                   animationSpeed={profile.gradientSpeed || 8}
                   showBorder={false}
-                  className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight !m-0 !p-0 !bg-transparent text-left inline-flex"
+                  className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight !m-0 !p-0 !bg-transparent text-left inline-flex leading-[1.15]"
                 >
                   {profile.name}
                 </GradientText>
@@ -177,15 +177,15 @@ export function PortfolioPage() {
             {/* Interactive Contact Links with Micro-Animations & Glow */}
             <div className="border-t border-[#262626] divide-y divide-[#262626]">
               {contactLinks.map((link) => (
-                <div key={link.id} className="py-2.5">
+                <div key={link.id} className="py-2">
                   <a
                     href={link.href}
                     target={link.isExternal ? "_blank" : undefined}
                     rel={link.isExternal ? "noopener noreferrer" : undefined}
-                    className="group flex items-center justify-between px-3 py-2 -mx-3 rounded-lg text-sm text-[#D1D5DB] hover:text-white hover:bg-white/[0.07] border border-transparent hover:border-white/10 transition-all duration-200"
+                    className="group flex items-center justify-between px-3.5 py-2.5 -mx-3.5 rounded-xl text-sm text-[#F3F4F6] sm:text-[#D1D5DB] hover:text-white bg-white/[0.03] sm:bg-transparent hover:bg-white/[0.08] border border-white/5 sm:border-transparent hover:border-white/10 transition-all duration-200"
                   >
                     <span className="group-hover:translate-x-0.5 transition-transform font-medium">{link.label}</span>
-                    <span className="text-xs text-[#8E8E93] group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">↗</span>
+                    <span className="text-xs text-pink-400 sm:text-[#8E8E93] group-hover:text-pink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">↗</span>
                   </a>
                 </div>
               ))}
@@ -274,10 +274,10 @@ export function PortfolioPage() {
                             className="group inline-flex items-start gap-1.5 no-underline"
                             title={`Open ${proj.title}`}
                           >
-                            <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-pink-400 tracking-tight leading-snug no-underline transition-colors duration-200">
+                            <h3 className="text-lg sm:text-xl font-bold text-pink-400 sm:text-white sm:group-hover:text-pink-400 tracking-tight leading-snug no-underline transition-colors duration-200">
                               {proj.title}
                             </h3>
-                            <span className="text-xs text-[#8E8E93] group-hover:text-pink-400 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-200 mt-1">
+                            <span className="text-xs text-pink-400 sm:text-[#8E8E93] sm:group-hover:text-pink-400 sm:group-hover:translate-x-1 sm:group-hover:-translate-y-1 transition-all duration-200 mt-1">
                               ↗
                             </span>
                           </a>
@@ -314,36 +314,64 @@ export function PortfolioPage() {
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                  {skills.map((group) => (
-                    <PixelCard
-                      key={group.id}
-                      variant={group.variant || "default"}
-                      gap={7}
-                      speed={35}
-                      className="w-full !min-h-[190px] !h-auto !aspect-auto p-4 sm:p-5 rounded-xl border border-[#262626] bg-[#0c0c0e]/75 backdrop-blur-xs transition-all hover:border-white/30"
-                    >
-                      <div className="relative z-10 w-full flex flex-col justify-between h-full space-y-3.5">
-                        <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
-                          <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                            {group.category}
-                          </h3>
-                          <span className="text-2xs font-mono text-[#8E8E93] bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
-                            {group.skills.length}
-                          </span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          {group.skills.map((skill, sIdx) => (
-                            <span
-                              key={sIdx}
-                              className="px-2.5 py-1 text-xs font-medium rounded-lg bg-white/5 hover:bg-white/15 text-[#D1D5DB] hover:text-white border border-white/5 hover:border-white/20 transition-all cursor-default"
-                            >
-                              {skill}
+                  {skills.map((group) => {
+                    const isPink = group.variant === 'pink';
+                    const isBlue = group.variant === 'blue';
+                    return (
+                      <PixelCard
+                        key={group.id}
+                        variant={group.variant || "default"}
+                        gap={7}
+                        speed={35}
+                        className={cn(
+                          "w-full !min-h-[190px] !h-auto !aspect-auto p-4 sm:p-5 rounded-xl border backdrop-blur-xs transition-all",
+                          isPink
+                            ? "border-pink-500/25 bg-gradient-to-b from-pink-950/20 via-[#0c0c0e]/80 to-black sm:border-[#262626] sm:bg-[#0c0c0e]/75 sm:hover:border-pink-400/40"
+                            : isBlue
+                            ? "border-cyan-500/25 bg-gradient-to-b from-cyan-950/20 via-[#0c0c0e]/80 to-black sm:border-[#262626] sm:bg-[#0c0c0e]/75 sm:hover:border-cyan-400/40"
+                            : "border-purple-500/25 bg-gradient-to-b from-purple-950/20 via-[#0c0c0e]/80 to-black sm:border-[#262626] sm:bg-[#0c0c0e]/75 sm:hover:border-purple-400/40"
+                        )}
+                      >
+                        <div className="relative z-10 w-full flex flex-col justify-between h-full space-y-3.5">
+                          <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
+                            <h3 className={cn(
+                              "text-base sm:text-lg font-bold tracking-tight",
+                              isPink ? "text-pink-300 sm:text-white" : isBlue ? "text-cyan-300 sm:text-white" : "text-purple-300 sm:text-white"
+                            )}>
+                              {group.category}
+                            </h3>
+                            <span className={cn(
+                              "text-2xs font-mono px-2 py-0.5 rounded-full border",
+                              isPink
+                                ? "bg-pink-500/15 text-pink-300 border-pink-500/25"
+                                : isBlue
+                                ? "bg-cyan-500/15 text-cyan-300 border-cyan-500/25"
+                                : "bg-purple-500/15 text-purple-300 border-purple-500/25"
+                            )}>
+                              {group.skills.length}
                             </span>
-                          ))}
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {group.skills.map((skill, sIdx) => (
+                              <span
+                                key={sIdx}
+                                className={cn(
+                                  "px-2.5 py-1 text-xs font-medium rounded-lg border transition-all cursor-default",
+                                  isPink
+                                    ? "bg-pink-500/15 text-pink-100 border-pink-500/25 sm:bg-white/5 sm:text-[#D1D5DB] sm:border-white/5 sm:hover:bg-white/15 sm:hover:text-white sm:hover:border-white/20"
+                                    : isBlue
+                                    ? "bg-cyan-500/15 text-cyan-100 border-cyan-500/25 sm:bg-white/5 sm:text-[#D1D5DB] sm:border-white/5 sm:hover:bg-white/15 sm:hover:text-white sm:hover:border-white/20"
+                                    : "bg-purple-500/15 text-purple-100 border-purple-500/25 sm:bg-white/5 sm:text-[#D1D5DB] sm:border-white/5 sm:hover:bg-white/15 sm:hover:text-white sm:hover:border-white/20"
+                                )}
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    </PixelCard>
-                  ))}
+                      </PixelCard>
+                    );
+                  })}
                 </div>
               </section>
             )}
