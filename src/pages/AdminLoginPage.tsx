@@ -20,7 +20,7 @@ export function AdminLoginPage() {
     if (success) {
       navigate('/admin');
     } else {
-      setError('Invalid passcode. Default is "aravinda2026"');
+      setError('Invalid passcode. Please try again.');
     }
   };
 
@@ -58,7 +58,7 @@ export function AdminLoginPage() {
                     setPassword(e.target.value);
                     setError('');
                   }}
-                  placeholder="Enter passcode (default: aravinda2026)"
+                  placeholder="Enter passcode"
                   className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/15 text-white placeholder:text-zinc-600 focus:outline-hidden focus:border-pink-500 focus:ring-1 focus:ring-pink-500 text-sm transition-all"
                   autoFocus
                 />
@@ -82,7 +82,6 @@ export function AdminLoginPage() {
               <Link to="/" className="hover:text-white transition-colors">
                 ← Back to Portfolio
               </Link>
-              <span className="font-mono text-2xs">Default: aravinda2026</span>
             </div>
           </div>
         </PixelCard>

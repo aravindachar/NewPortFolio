@@ -11,7 +11,6 @@ import { renderIconByKey } from '@/lib/iconsMap';
 import { cn } from '@/lib/utils';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 import { SiGmail } from 'react-icons/si';
-import { Link } from 'react-router-dom';
 
 export function PortfolioPage() {
   const { data } = usePortfolio();
@@ -473,17 +472,10 @@ export function PortfolioPage() {
                 </div>
               </div>
 
-              {/* Bottom Row: Copyright, Architecture, Back to Top & Admin Link */}
+              {/* Bottom Row: Copyright, Architecture, Back to Top */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8E8E93]">
-                <div className="flex items-center gap-2">
+                <div>
                   <p>© {new Date().getFullYear()} {settings.footerCopyright || profile.name}. All rights reserved.</p>
-                  <Link
-                    to="/admin"
-                    className="text-[#52525B] hover:text-white text-2xs font-mono ml-2 transition-colors"
-                    title="Open Dashboard"
-                  >
-                    ⚙ /admin
-                  </Link>
                 </div>
 
                 <div className="text-2xs sm:text-xs text-[#71717A] font-mono">

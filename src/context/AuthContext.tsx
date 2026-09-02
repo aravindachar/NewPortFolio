@@ -10,7 +10,7 @@ interface AuthContextType {
 
 const AUTH_KEY = 'aravinda_admin_auth_token';
 const PASSWORD_KEY = 'aravinda_admin_password_hash';
-const DEFAULT_PASSWORD = 'aravinda2026';
+const DEFAULT_PASSWORD = 'Rizzvind@#2004';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = (password: string): boolean => {
     const expected = getSavedPassword();
-    if (password === expected || password === 'admin') {
+    if (password === expected) {
       setIsAuthenticated(true);
       sessionStorage.setItem(AUTH_KEY, 'valid_session');
       return true;
