@@ -25,14 +25,6 @@ export function PortfolioPage() {
     }
   };
 
-  const handleResumeClick = () => {
-    if (profile.resumeUrl && profile.resumeUrl !== '#') {
-      window.open(profile.resumeUrl, '_blank');
-    } else {
-      window.print();
-    }
-  };
-
   // Convert active tickerLogos to LogoLoop format
   const activeLogos: LogoItem[] = tickerLogos
     .filter((logo) => logo.enabled)
@@ -119,15 +111,16 @@ export function PortfolioPage() {
                 <span className="text-2xs text-[#8E8E93]">↓</span>
               </button>
 
-              <button
-                onClick={handleResumeClick}
-                type="button"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-black bg-white hover:bg-gray-200 transition-all shadow-xs cursor-pointer select-none"
-                title="Print or Open Resume"
+              <a
+                href={profile.resumeUrl && profile.resumeUrl !== '#' ? profile.resumeUrl : '/resume.pdf'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-black bg-white hover:bg-gray-200 transition-all shadow-xs cursor-pointer select-none no-underline active:scale-95"
+                title="View Resume"
               >
                 <span>{profile.resumeLabel || "Resume"}</span>
                 <span className="text-xs">↗</span>
-              </button>
+              </a>
             </nav>
           </div>
 

@@ -7,7 +7,7 @@ export const defaultPortfolioData: PortfolioData = {
     bio: "Final-year Computer Science undergraduate with two internships and a strong portfolio of full-stack, mobile, and AI/ML projects. Experienced across React/Next.js, React Native, Node.js, Spring Boot, and computer vision model deployment. Comfortable owning a feature end-to-end — from database schema design to UI implementation to production debugging — and building genuinely production-grade personal projects rather than tutorials.",
     gradientColors: ["#ec4899", "#d9cdd8", "#a855f7", "#ec4899"],
     gradientSpeed: 8,
-    resumeUrl: "#",
+    resumeUrl: "/resume.pdf",
     resumeLabel: "Resume"
   },
   contactLinks: [
