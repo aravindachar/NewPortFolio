@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+
+  html, body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100%;
+    min-height: -webkit-fill-available;
+  }
+
+  /* Remove default iOS tap highlight & improve responsiveness */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Print optimization for PDF resume generation */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .fixed,
+  .pixel-canvas,
+  .logoloop,
+  header nav,
+  header .w-full.pt-8,
+  footer {
+    display: none !important;
+  }
+
+  .text-white,
+  .text-\[\#D1D5DB\],
+  .text-\[\#F3F4F6\] {
+    color: #111827 !important;
+  }
+
+  .text-\[\#8E8E93\],
+  .text-\[\#71717A\] {
+    color: #4b5563 !important;
+  }
+
+  .border-\[\#262626\],
+  .border-white\/10,
+  .border-white\/15 {
+    border-color: #e5e7eb !important;
+  }
+
+  .pixel-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: none !important;
+  }
+
+  .animated-gradient-text .text-content {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    color: #000000 !important;
+  }
+}
