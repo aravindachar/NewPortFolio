@@ -36,7 +36,7 @@ export function WorldMapDemo() {
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full">
         <WorldMap
           lineColor="#ec4899"
           dots={[
