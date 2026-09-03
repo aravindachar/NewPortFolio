@@ -7,12 +7,13 @@ export function WorldMapDemo() {
   return (
     <section className="w-full pt-16 sm:pt-20 border-t border-black/[0.08] dark:border-[#262626] transition-colors duration-300">
       <div className="max-w-4xl mx-auto text-center space-y-3 mb-8 sm:mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-2xs font-mono font-semibold uppercase tracking-wider text-pink-500 bg-pink-500/10 border border-pink-500/20 mb-1">
+        {/* Apple-style Frosted Pill Badge */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium text-[#1d1d1f] dark:text-[#E4E4E7] bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/15 backdrop-blur-md shadow-xs select-none mb-1">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          Worldwide Remote Availability
+          <span>Worldwide Remote Availability</span>
         </div>
 
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#1d1d1f] dark:text-white">
@@ -31,7 +32,7 @@ export function WorldMapDemo() {
         </h2>
 
         <p className="text-xs sm:text-sm lg:text-base text-[#86868b] dark:text-[#8E8E93] max-w-2xl mx-auto leading-relaxed">
-          Based in <span className="text-[#1d1d1f] dark:text-white font-medium">Bengaluru, IN</span> — comfortable operating in asynchronous distributed engineering workflows and delivering features across multiple time zones.
+          Based in <span className="text-[#1d1d1f] dark:text-white font-medium">Bengaluru, IN</span> — engineered to build, collaborate, and deliver production features with distributed teams worldwide.
         </p>
       </div>
 
@@ -71,25 +72,6 @@ export function WorldMapDemo() {
             },
           ]}
         />
-
-        {/* Global Hubs Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-6 text-2xs sm:text-xs font-mono text-[#86868b] dark:text-[#8E8E93]">
-          <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-            📍 Bengaluru (UTC+5:30)
-          </span>
-          <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-            ⚡ Silicon Valley (PST)
-          </span>
-          <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-            ⚡ London (GMT/BST)
-          </span>
-          <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-            ⚡ Tokyo (JST)
-          </span>
-          <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
-            ⚡ Singapore (SGT)
-          </span>
-        </div>
       </div>
     </section>
   );
