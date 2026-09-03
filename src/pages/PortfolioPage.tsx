@@ -7,6 +7,7 @@ import type { LogoItem } from '@/components/ui/LogoLoop';
 import VariableProximity from '@/components/ui/VariableProximity';
 import PixelCard from '@/components/ui/PixelCard';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import WorldMapDemo from '@/components/ui/world-map-demo';
 import { usePortfolio } from '@/context/PortfolioContext';
 import { useTheme } from '@/context/ThemeContext';
 import { renderIconByKey } from '@/lib/iconsMap';
@@ -399,6 +400,9 @@ export function PortfolioPage() {
           </main>
 
         </div>
+
+        {/* Global Collaboration & Remote World Map Section */}
+        <WorldMapDemo />
 
         {/* Standout Floating Footer Card with Dynamic Actions & Settings */}
         <footer className="mt-20 sm:mt-24 mb-10 w-full">
