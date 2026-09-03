@@ -6,7 +6,9 @@ import LogoLoop from '@/components/ui/LogoLoop';
 import type { LogoItem } from '@/components/ui/LogoLoop';
 import VariableProximity from '@/components/ui/VariableProximity';
 import PixelCard from '@/components/ui/PixelCard';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 import { usePortfolio } from '@/context/PortfolioContext';
+import { useTheme } from '@/context/ThemeContext';
 import { renderIconByKey } from '@/lib/iconsMap';
 import { cn } from '@/lib/utils';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
@@ -14,6 +16,7 @@ import { SiGmail } from 'react-icons/si';
 
 export function PortfolioPage() {
   const { data } = usePortfolio();
+  const { isDark } = useTheme();
   const { profile, contactLinks, tickerLogos, experiences, projects, skills, education, certifications, settings } = data;
 
   const bioContainerRef = useRef<HTMLDivElement | null>(null);
@@ -29,13 +32,13 @@ export function PortfolioPage() {
   const activeLogos: LogoItem[] = tickerLogos
     .filter((logo) => logo.enabled)
     .map((logo) => ({
-      node: renderIconByKey(logo.iconKey, `hover:text-white transition-colors text-[${logo.color}]`),
+      node: renderIconByKey(logo.iconKey, `hover:scale-110 transition-transform text-[${logo.color}]`),
       title: logo.title,
       href: logo.href
     }));
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] bg-black text-white font-sans selection:bg-white selection:text-black antialiased overflow-x-hidden w-full">
+    <div className="relative min-h-screen min-h-[100dvh] bg-white dark:bg-black text-[#1d1d1f] dark:text-white font-sans selection:bg-[#1d1d1f] selection:text-white dark:selection:bg-white dark:selection:text-black antialiased overflow-x-hidden w-full transition-colors duration-300">
       
       {/* Full-Screen LetterGlitch Background Effect */}
       {settings.showLetterGlitch && (
@@ -49,7 +52,8 @@ export function PortfolioPage() {
             outerVignette={false}
             smooth={true}
             speed={65}
-            colors={["#241a2f", "#251233", "#464646"]}
+            lightMode={!isDark}
+            colors={isDark ? ["#241a2f", "#251233", "#464646"] : ["#e8e2f2", "#dcd4eb", "#e2e2e7"]}
             showOuterVignette
           />
         </div>
@@ -64,7 +68,7 @@ export function PortfolioPage() {
           cy={1}
           cr={1}
           className={cn(
-            "fill-white/10 opacity-20 fixed inset-0 h-full w-full pointer-events-none z-0",
+            "fill-black/8 dark:fill-white/10 opacity-25 fixed inset-0 h-full w-full pointer-events-none z-0 transition-opacity duration-300",
             "[mask-image:radial-gradient(1200px_circle_at_center,white,transparent_80%)]",
           )}
         />
@@ -95,27 +99,30 @@ export function PortfolioPage() {
                   {profile.name}
                 </GradientText>
               </h1>
-              <p className="text-sm sm:text-base lg:text-lg font-medium text-[#8E8E93] tracking-wide">
+              <p className="text-sm sm:text-base lg:text-lg font-medium text-[#86868b] dark:text-[#8E8E93] tracking-wide">
                 {profile.title}
               </p>
             </div>
 
             {/* Top-Right Action Group */}
-            <nav className="flex items-center gap-2.5 sm:gap-3 shrink-0 pt-1">
+            <nav className="flex items-center gap-2 sm:gap-3 shrink-0 pt-1">
+              {/* Apple-Style Theme Toggle */}
+              <ThemeToggle />
+
               <button
                 onClick={scrollToAbout}
                 type="button"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-md transition-all shadow-xs cursor-pointer select-none"
+                className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium text-[#1d1d1f] dark:text-white bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/15 backdrop-blur-md transition-all shadow-xs cursor-pointer select-none"
               >
                 <span>About</span>
-                <span className="text-2xs text-[#8E8E93]">↓</span>
+                <span className="text-2xs text-[#86868b] dark:text-[#8E8E93]">↓</span>
               </button>
 
               <a
                 href={profile.resumeUrl && profile.resumeUrl !== '#' ? profile.resumeUrl : '/resume.pdf'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-black bg-white hover:bg-gray-200 transition-all shadow-xs cursor-pointer select-none no-underline active:scale-95"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-white dark:text-black bg-[#1d1d1f] dark:bg-white hover:bg-black/80 dark:hover:bg-gray-200 transition-all shadow-xs cursor-pointer select-none no-underline active:scale-95"
                 title="View Resume"
               >
                 <span>{profile.resumeLabel || "Resume"}</span>
@@ -127,10 +134,10 @@ export function PortfolioPage() {
           {/* LogoLoop Component - Dynamic Resume Skills Ticker */}
           {activeLogos.length > 0 && (
             <div className="w-full pt-8 sm:pt-10">
-              <div className="text-2xs uppercase tracking-widest text-[#71717A] font-mono mb-3 font-semibold">
+              <div className="text-2xs uppercase tracking-widest text-[#86868b] dark:text-[#71717A] font-mono mb-3 font-semibold">
                 Core Technologies & Architecture Stack
               </div>
-              <div className="w-full overflow-hidden rounded-xl border border-[#262626]/80 bg-black/40 backdrop-blur-xs py-2 px-1">
+              <div className="w-full overflow-hidden rounded-xl border border-black/[0.08] dark:border-[#262626]/80 bg-white/70 dark:bg-black/40 backdrop-blur-xs py-2 px-1 shadow-xs transition-colors duration-300">
                 <LogoLoop
                   logos={activeLogos}
                   speed={settings.tickerSpeed || 45}
@@ -140,7 +147,7 @@ export function PortfolioPage() {
                   hoverSpeed={0}
                   scaleOnHover
                   fadeOut
-                  fadeOutColor="#000000"
+                  fadeOutColor={isDark ? "#000000" : "#ffffff"}
                   ariaLabel="Technical Stack & Tools"
                 />
               </div>
@@ -154,7 +161,7 @@ export function PortfolioPage() {
           {/* Left Column: Fixed / Sticky Bio with VariableProximity & Interactive Contact Links */}
           <aside id="about" className="lg:col-span-4 space-y-6 sm:space-y-8 lg:sticky lg:top-12">
             <div ref={bioContainerRef} className="cursor-default">
-              <p className="text-sm sm:text-base text-[#D1D5DB] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#1d1d1f] dark:text-[#D1D5DB] leading-relaxed">
                 <VariableProximity
                   label={profile.bio}
                   fromFontVariationSettings="'wght' 350, 'opsz' 14"
@@ -162,23 +169,23 @@ export function PortfolioPage() {
                   containerRef={bioContainerRef}
                   radius={85}
                   falloff="linear"
-                  className="text-[#D1D5DB] text-sm sm:text-base inline leading-relaxed"
+                  className="text-[#1d1d1f] dark:text-[#D1D5DB] text-sm sm:text-base inline leading-relaxed"
                 />
               </p>
             </div>
 
             {/* Interactive Contact Links with Micro-Animations & Glow */}
-            <div className="border-t border-[#262626] divide-y divide-[#262626]">
+            <div className="border-t border-black/[0.08] dark:border-[#262626] divide-y divide-black/[0.08] dark:divide-[#262626] transition-colors duration-300">
               {contactLinks.map((link) => (
                 <div key={link.id} className="py-2">
                   <a
                     href={link.href}
                     target={link.isExternal ? "_blank" : undefined}
                     rel={link.isExternal ? "noopener noreferrer" : undefined}
-                    className="group flex items-center justify-between px-3.5 py-2.5 -mx-3.5 rounded-xl text-sm text-[#F3F4F6] sm:text-[#D1D5DB] hover:text-white bg-white/[0.03] sm:bg-transparent hover:bg-white/[0.08] border border-white/5 sm:border-transparent hover:border-white/10 transition-all duration-200"
+                    className="group flex items-center justify-between px-3.5 py-2.5 -mx-3.5 rounded-xl text-sm text-[#1d1d1f] dark:text-[#F3F4F6] sm:text-[#333336] sm:dark:text-[#D1D5DB] hover:text-black dark:hover:text-white bg-black/[0.03] dark:bg-white/[0.03] sm:bg-transparent hover:bg-black/[0.06] dark:hover:bg-white/[0.08] border border-black/5 dark:border-white/5 sm:border-transparent hover:border-black/10 dark:hover:border-white/10 transition-all duration-200"
                   >
                     <span className="group-hover:translate-x-0.5 transition-transform font-medium">{link.label}</span>
-                    <span className="text-xs text-pink-400 sm:text-[#8E8E93] group-hover:text-pink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">↗</span>
+                    <span className="text-xs text-pink-500 dark:text-pink-400 sm:text-[#86868b] sm:dark:text-[#8E8E93] group-hover:text-pink-500 dark:group-hover:text-pink-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">↗</span>
                   </a>
                 </div>
               ))}
@@ -190,8 +197,8 @@ export function PortfolioPage() {
             
             {/* Section: Experience */}
             {experiences.length > 0 && (
-              <section id="experience" className="border-t border-[#262626] lg:border-t-0 pt-8 lg:pt-0">
-                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-white mb-8">
+              <section id="experience" className="border-t border-black/[0.08] dark:border-[#262626] lg:border-t-0 pt-8 lg:pt-0 transition-colors duration-300">
+                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-[#1d1d1f] dark:text-white mb-8">
                   Experience
                 </h2>
 
@@ -200,15 +207,15 @@ export function PortfolioPage() {
                     <div
                       key={exp.id}
                       className={`grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 ${
-                        idx !== 0 ? "border-t border-[#262626] pt-8" : ""
+                        idx !== 0 ? "border-t border-black/[0.08] dark:border-[#262626] pt-8" : ""
                       }`}
                     >
                       {/* Role & Company Column */}
                       <div className="md:col-span-5 space-y-1.5">
-                        <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-bold text-[#1d1d1f] dark:text-white tracking-tight">
                           {exp.role}
                         </h3>
-                        <div className="text-sm sm:text-base text-[#8E8E93] hover:text-white transition-colors">
+                        <div className="text-sm sm:text-base text-[#86868b] dark:text-[#8E8E93] hover:text-black dark:hover:text-white transition-colors">
                           <a
                             href={exp.companyUrl || "#"}
                             target={exp.companyUrl && exp.companyUrl !== '#' ? "_blank" : undefined}
@@ -219,10 +226,10 @@ export function PortfolioPage() {
                             <span className="text-xs">↗</span>
                           </a>
                         </div>
-                        <div className="text-xs sm:text-sm text-[#8E8E93] pt-0.5">
+                        <div className="text-xs sm:text-sm text-[#86868b] dark:text-[#8E8E93] pt-0.5">
                           {exp.period}
                         </div>
-                        <div className="text-xs sm:text-sm text-[#8E8E93]">
+                        <div className="text-xs sm:text-sm text-[#86868b] dark:text-[#8E8E93]">
                           {exp.location}
                         </div>
                       </div>
@@ -230,8 +237,8 @@ export function PortfolioPage() {
                       {/* Bullet Points Column */}
                       <div className="md:col-span-7 space-y-3">
                         {exp.bullets.map((bullet, bIdx) => (
-                          <div key={bIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-[#F3F4F6] leading-relaxed">
-                            <span className="text-white text-xs select-none mt-1.5">•</span>
+                          <div key={bIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-[#333336] dark:text-[#F3F4F6] leading-relaxed">
+                            <span className="text-[#1d1d1f] dark:text-white text-xs select-none mt-1.5">•</span>
                             <p>{bullet}</p>
                           </div>
                         ))}
@@ -244,8 +251,8 @@ export function PortfolioPage() {
 
             {/* Section: Projects with Interactive Redirect Links */}
             {projects.length > 0 && (
-              <section id="projects" className="border-t border-[#262626] pt-8">
-                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-white mb-8">
+              <section id="projects" className="border-t border-black/[0.08] dark:border-[#262626] pt-8 transition-colors duration-300">
+                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-[#1d1d1f] dark:text-white mb-8">
                   Projects
                 </h2>
 
@@ -254,7 +261,7 @@ export function PortfolioPage() {
                     <div
                       key={proj.id}
                       className={`grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 ${
-                        idx !== 0 ? "border-t border-[#262626] pt-8" : ""
+                        idx !== 0 ? "border-t border-black/[0.08] dark:border-[#262626] pt-8" : ""
                       }`}
                     >
                       {/* Title & Tech Column with Clickable Link */}
@@ -267,19 +274,19 @@ export function PortfolioPage() {
                             className="group inline-flex items-start gap-1.5 no-underline"
                             title={`Open ${proj.title}`}
                           >
-                            <h3 className="text-lg sm:text-xl font-bold text-pink-400 sm:text-white sm:group-hover:text-pink-400 tracking-tight leading-snug no-underline transition-colors duration-200">
+                            <h3 className="text-lg sm:text-xl font-bold text-pink-500 dark:text-pink-400 sm:text-[#1d1d1f] sm:dark:text-white sm:group-hover:text-pink-500 sm:dark:group-hover:text-pink-400 tracking-tight leading-snug no-underline transition-colors duration-200">
                               {proj.title}
                             </h3>
-                            <span className="text-xs text-pink-400 sm:text-[#8E8E93] sm:group-hover:text-pink-400 sm:group-hover:translate-x-1 sm:group-hover:-translate-y-1 transition-all duration-200 mt-1">
+                            <span className="text-xs text-pink-500 dark:text-pink-400 sm:text-[#86868b] sm:dark:text-[#8E8E93] sm:group-hover:text-pink-500 sm:dark:group-hover:text-pink-400 sm:group-hover:translate-x-1 sm:group-hover:-translate-y-1 transition-all duration-200 mt-1">
                               ↗
                             </span>
                           </a>
                         ) : (
-                          <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug">
+                          <h3 className="text-lg sm:text-xl font-bold text-[#1d1d1f] dark:text-white tracking-tight leading-snug">
                             {proj.title}
                           </h3>
                         )}
-                        <div className="text-xs sm:text-sm text-[#8E8E93] font-mono leading-relaxed pt-1">
+                        <div className="text-xs sm:text-sm text-[#86868b] dark:text-[#8E8E93] font-mono leading-relaxed pt-1">
                           {proj.techStack}
                         </div>
                       </div>
@@ -287,8 +294,8 @@ export function PortfolioPage() {
                       {/* Bullets Column */}
                       <div className="md:col-span-7 space-y-3">
                         {proj.bullets.map((bullet, bIdx) => (
-                          <div key={bIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-[#F3F4F6] leading-relaxed">
-                            <span className="text-white text-xs select-none mt-1.5">•</span>
+                          <div key={bIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-[#333336] dark:text-[#F3F4F6] leading-relaxed">
+                            <span className="text-[#1d1d1f] dark:text-white text-xs select-none mt-1.5">•</span>
                             <p>{bullet}</p>
                           </div>
                         ))}
@@ -301,8 +308,8 @@ export function PortfolioPage() {
 
             {/* Section: Technical Skills with Interactive PixelCards */}
             {skills.length > 0 && (
-              <section id="skills" className="border-t border-[#262626] pt-8">
-                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-white mb-8">
+              <section id="skills" className="border-t border-black/[0.08] dark:border-[#262626] pt-8 transition-colors duration-300">
+                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-[#1d1d1f] dark:text-white mb-8">
                   Technical Skills
                 </h2>
 
@@ -313,14 +320,14 @@ export function PortfolioPage() {
                       variant={group.variant || "default"}
                       gap={7}
                       speed={35}
-                      className="w-full !min-h-[190px] !h-auto !aspect-auto p-4 sm:p-5 rounded-xl border border-[#262626] bg-[#0c0c0e]/75 backdrop-blur-xs transition-all hover:border-white/30"
+                      className="w-full !min-h-[190px] !h-auto !aspect-auto p-4 sm:p-5 rounded-xl border border-black/[0.08] dark:border-[#262626] bg-white/75 dark:bg-[#0c0c0e]/75 backdrop-blur-xs transition-all hover:border-black/20 dark:hover:border-white/30 shadow-xs"
                     >
                       <div className="relative z-10 w-full flex flex-col justify-between h-full space-y-3.5">
-                        <div className="flex items-center justify-between pb-2.5 border-b border-white/10">
-                          <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                        <div className="flex items-center justify-between pb-2.5 border-b border-black/[0.08] dark:border-white/10">
+                          <h3 className="text-base sm:text-lg font-bold text-[#1d1d1f] dark:text-white tracking-tight">
                             {group.category}
                           </h3>
-                          <span className="text-2xs font-mono text-[#8E8E93] bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
+                          <span className="text-2xs font-mono text-[#86868b] dark:text-[#8E8E93] bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 px-2 py-0.5 rounded-full">
                             {group.skills.length}
                           </span>
                         </div>
@@ -328,7 +335,7 @@ export function PortfolioPage() {
                           {group.skills.map((skill, sIdx) => (
                             <span
                               key={sIdx}
-                              className="px-2.5 py-1 text-xs font-medium rounded-lg bg-white/5 hover:bg-white/15 text-[#D1D5DB] hover:text-white border border-white/5 hover:border-white/20 transition-all cursor-default"
+                              className="px-2.5 py-1 text-xs font-medium rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/15 text-[#333336] dark:text-[#D1D5DB] hover:text-black dark:hover:text-white border border-black/5 dark:border-white/5 hover:border-black/15 dark:hover:border-white/20 transition-all cursor-default"
                             >
                               {skill}
                             </span>
@@ -343,22 +350,22 @@ export function PortfolioPage() {
 
             {/* Section: Education */}
             {education.length > 0 && (
-              <section id="education" className="border-t border-[#262626] pt-8">
-                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-white mb-8">
+              <section id="education" className="border-t border-black/[0.08] dark:border-[#262626] pt-8 transition-colors duration-300">
+                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-[#1d1d1f] dark:text-white mb-8">
                   Education
                 </h2>
 
                 <div className="space-y-6">
                   {education.map((edu) => (
                     <div key={edu.id} className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
-                      <div className="text-sm sm:text-base font-normal text-white">
+                      <div className="text-sm sm:text-base font-normal text-[#1d1d1f] dark:text-white">
                         {edu.institution}
                       </div>
                       <div className="space-y-0.5">
-                        <div className="text-sm sm:text-base font-normal text-white">
+                        <div className="text-sm sm:text-base font-normal text-[#1d1d1f] dark:text-white">
                           {edu.degree}
                         </div>
-                        <div className="text-sm text-[#8E8E93]">
+                        <div className="text-sm text-[#86868b] dark:text-[#8E8E93]">
                           {edu.status}
                         </div>
                       </div>
@@ -370,14 +377,14 @@ export function PortfolioPage() {
 
             {/* Section: Certifications & Achievements (Dynamic Toggle) */}
             {settings.showCertifications && certifications.length > 0 && (
-              <section className="border-t border-[#262626] pt-8">
-                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-white mb-6">
+              <section className="border-t border-black/[0.08] dark:border-[#262626] pt-8 transition-colors duration-300">
+                <h2 className="text-sm sm:text-base lg:text-lg font-bold uppercase tracking-wider text-[#1d1d1f] dark:text-white mb-6">
                   Certifications & Achievements:
                 </h2>
                 <div className="space-y-3.5">
                   {certifications.map((cert) => (
-                    <div key={cert.id} className="flex items-start gap-2.5 text-sm sm:text-base text-[#F3F4F6] leading-relaxed">
-                      <span className="text-white text-xs select-none mt-1.5">•</span>
+                    <div key={cert.id} className="flex items-start gap-2.5 text-sm sm:text-base text-[#333336] dark:text-[#F3F4F6] leading-relaxed">
+                      <span className="text-[#1d1d1f] dark:text-white text-xs select-none mt-1.5">•</span>
                       <p>{cert.name}</p>
                     </div>
                   ))}
@@ -395,12 +402,12 @@ export function PortfolioPage() {
             variant="default"
             gap={8}
             speed={30}
-            className="w-full !min-h-[200px] !h-auto !aspect-auto p-6 sm:p-10 rounded-2xl sm:rounded-3xl border border-white/10 bg-white/[0.015] backdrop-blur-xl shadow-2xl transition-all hover:border-white/25"
+            className="w-full !min-h-[200px] !h-auto !aspect-auto p-6 sm:p-10 rounded-2xl sm:rounded-3xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-white/[0.015] backdrop-blur-xl shadow-xl dark:shadow-2xl transition-all hover:border-black/15 dark:hover:border-white/25"
           >
             <div className="relative z-10 w-full flex flex-col justify-between gap-8">
               
               {/* Top Row: Availability, Name & Animated Social Pill Buttons */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-black/[0.08] dark:border-white/10">
                 <div className="space-y-1.5">
                   {settings.statusText && (
                     <div className="flex items-center gap-2.5">
@@ -416,16 +423,16 @@ export function PortfolioPage() {
                       </span>
                       <span className={cn(
                         "text-xs font-mono font-medium",
-                        settings.statusAvailable ? "text-emerald-400" : "text-amber-400"
+                        settings.statusAvailable ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
                       )}>
                         {settings.statusText}
                       </span>
                     </div>
                   )}
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#1d1d1f] dark:text-white">
                     {settings.footerTagline || "Let's build something remarkable."}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#8E8E93]">
+                  <p className="text-xs sm:text-sm text-[#86868b] dark:text-[#8E8E93]">
                     Bengaluru, Karnataka, India • {contactLinks.find(c => c.href.startsWith('mailto:'))?.label || 'aravindachar2004@gmail.com'}
                   </p>
                 </div>
@@ -436,49 +443,49 @@ export function PortfolioPage() {
                     href="https://github.com/aravindachar"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 hover:border-white/30 transition-all hover:-translate-y-0.5 active:scale-95 shadow-xs cursor-pointer select-none"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-[#1d1d1f] dark:text-white bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/15 hover:border-black/20 dark:hover:border-white/30 transition-all hover:-translate-y-0.5 active:scale-95 shadow-xs cursor-pointer select-none"
                   >
                     <FaGithub className="text-sm" />
                     <span>GitHub</span>
-                    <span className="text-2xs text-[#8E8E93]">↗</span>
+                    <span className="text-2xs text-[#86868b] dark:text-[#8E8E93]">↗</span>
                   </a>
 
                   <a
                     href="https://linkedin.com/in/aravindachar"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 hover:border-white/30 transition-all hover:-translate-y-0.5 active:scale-95 shadow-xs cursor-pointer select-none"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-[#1d1d1f] dark:text-white bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/15 hover:border-black/20 dark:hover:border-white/30 transition-all hover:-translate-y-0.5 active:scale-95 shadow-xs cursor-pointer select-none"
                   >
                     <FaLinkedin className="text-sm text-[#0A66C2]" />
                     <span>LinkedIn</span>
-                    <span className="text-2xs text-[#8E8E93]">↗</span>
+                    <span className="text-2xs text-[#86868b] dark:text-[#8E8E93]">↗</span>
                   </a>
 
                   <a
                     href="mailto:aravindachar2004@gmail.com"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-black bg-white hover:bg-gray-200 transition-all hover:-translate-y-0.5 active:scale-95 shadow-md cursor-pointer select-none"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-white dark:text-black bg-[#1d1d1f] dark:bg-white hover:bg-black/80 dark:hover:bg-gray-200 transition-all hover:-translate-y-0.5 active:scale-95 shadow-md cursor-pointer select-none"
                   >
                     <SiGmail className="text-sm text-[#EA4335]" />
                     <span>Email</span>
-                    <span className="text-2xs text-black/60">↗</span>
+                    <span className="text-2xs text-white/60 dark:text-black/60">↗</span>
                   </a>
                 </div>
               </div>
 
               {/* Bottom Row: Copyright, Architecture, Back to Top */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8E8E93]">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#86868b] dark:text-[#8E8E93]">
                 <div>
                   <p>© {new Date().getFullYear()} {settings.footerCopyright || profile.name}. All rights reserved.</p>
                 </div>
 
-                <div className="text-2xs sm:text-xs text-[#71717A] font-mono">
+                <div className="text-2xs sm:text-xs text-[#86868b] dark:text-[#71717A] font-mono">
                   React 19 • TypeScript • Tailwind CSS • Three.js
                 </div>
 
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   type="button"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium text-white bg-white/10 hover:bg-white/20 border border-white/15 transition-all cursor-pointer select-none"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium text-[#1d1d1f] dark:text-white bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/15 transition-all cursor-pointer select-none"
                 >
                   <span>Back to top</span>
                   <span>↑</span>

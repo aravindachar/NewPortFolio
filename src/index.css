@@ -1,13 +1,30 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    --bg-canvas: #ffffff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --border-subtle: #e5e5e7;
+    --card-bg: rgba(245, 245, 247, 0.8);
+    --card-border: rgba(0, 0, 0, 0.08);
+  }
+
+  .dark {
+    --bg-canvas: #000000;
+    --text-primary: #ffffff;
+    --text-secondary: #8E8E93;
+    --border-subtle: #262626;
+    --card-bg: rgba(12, 12, 14, 0.8);
+    --card-border: #262626;
   }
 
   html, body {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -18,6 +35,7 @@
     width: 100%;
     min-height: 100%;
     min-height: -webkit-fill-available;
+    transition: background-color 250ms ease, color 250ms ease;
   }
 
   /* Remove default iOS tap highlight & improve responsiveness */
@@ -26,6 +44,11 @@
   }
 
   ::selection {
+    background-color: #1d1d1f;
+    color: #ffffff;
+  }
+
+  .dark ::selection {
     background-color: #ffffff;
     color: #000000;
   }
@@ -37,15 +60,23 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #d1d1d6;
   border-radius: 3px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #27272a;
+}
+
 ::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #3f3f46;
 }
 
