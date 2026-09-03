@@ -7,7 +7,7 @@ interface ThemeContextType {
   theme: Theme;
   isDark: boolean;
   setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
+  toggleTheme: (event?: React.MouseEvent) => void;
 }
 
 const THEME_KEY = 'aravinda_portfolio_theme';
@@ -73,9 +73,50 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem(THEME_KEY, newTheme);
   };
 
-  const toggleTheme = () => {
+  const toggleTheme = (event?: React.MouseEvent) => {
     const nextTheme = isDark ? 'light' : 'dark';
-    setTheme(nextTheme);
+
+    // Check if View Transition API is supported and motion is not reduced
+    const isViewTransitionSupported =
+      typeof document !== 'undefined' &&
+      'startViewTransition' in document &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isViewTransitionSupported) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    const x = event ? event.clientX : window.innerWidth / 2;
+    const y = event ? event.clientY : window.innerHeight / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = (document as unknown as { startViewTransition: (cb: () => void) => { ready: Promise<void> } }).startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`
+      ];
+
+      document.documentElement.animate(
+        {
+          clipPath: isDark ? clipPath : [...clipPath].reverse()
+        },
+        {
+          duration: 480,
+          easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+          pseudoElement: isDark
+            ? '::view-transition-new(root)'
+            : '::view-transition-old(root)'
+        }
+      );
+    });
   };
 
   return (

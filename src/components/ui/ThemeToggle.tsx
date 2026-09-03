@@ -6,7 +6,7 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={(e) => toggleTheme(e)}
       type="button"
       className={`relative inline-flex items-center justify-center w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-black/10 dark:border-white/15 text-neutral-800 dark:text-white backdrop-blur-md transition-all duration-300 shadow-xs cursor-pointer select-none active:scale-90 ${className}`}
       aria-label={isDark ? 'Switch to Apple Light Mode' : 'Switch to Dark Mode'}

@@ -35,7 +35,14 @@
     width: 100%;
     min-height: 100%;
     min-height: -webkit-fill-available;
-    transition: background-color 250ms ease, color 250ms ease;
+    transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1), color 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Smooth color/border transition across common components when toggling */
+  h1, h2, h3, p, span, a, button, section, aside, header, footer, nav, .pixel-card {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 350ms;
   }
 
   /* Remove default iOS tap highlight & improve responsiveness */
@@ -52,6 +59,29 @@
     background-color: #ffffff;
     color: #000000;
   }
+}
+
+/* Modern View Transition Circular Ripple Animation */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+.dark::view-transition-new(root) {
+  z-index: 1;
 }
 
 /* Custom minimal scrollbar */
