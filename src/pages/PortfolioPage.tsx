@@ -38,13 +38,17 @@ export function PortfolioPage() {
     }));
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] bg-white dark:bg-black text-[#1d1d1f] dark:text-white font-sans selection:bg-[#1d1d1f] selection:text-white dark:selection:bg-white dark:selection:text-black antialiased overflow-x-hidden w-full transition-colors duration-300">
+    <div className="relative min-h-screen min-h-[100dvh] bg-[#ffffff] [background:radial-gradient(125%_125%_at_50%_0%,#ffffff_50%,#f5f5f7_100%)] dark:bg-black dark:[background:none] text-[#1d1d1f] dark:text-white font-sans selection:bg-[#1d1d1f] selection:text-white dark:selection:bg-white dark:selection:text-black antialiased overflow-x-hidden w-full transition-colors duration-300">
       
       {/* Full-Screen LetterGlitch Background Effect */}
       {settings.showLetterGlitch && (
         <div
           className="fixed inset-0 w-full h-full pointer-events-none z-0 transition-opacity duration-500"
-          style={{ opacity: (settings.glitchOpacity ?? 55) / 100 }}
+          style={{
+            opacity: isDark
+              ? (settings.glitchOpacity ?? 55) / 100
+              : Math.min((settings.glitchOpacity ?? 55) / 100 * 0.12, 0.07)
+          }}
         >
           <LetterGlitch
             glitchSpeed={50}
@@ -53,7 +57,7 @@ export function PortfolioPage() {
             smooth={true}
             speed={65}
             lightMode={!isDark}
-            colors={isDark ? ["#241a2f", "#251233", "#464646"] : ["#e8e2f2", "#dcd4eb", "#e2e2e7"]}
+            colors={isDark ? ["#241a2f", "#251233", "#464646"] : ["#f0ebf8", "#eae3f5", "#f4f4f7"]}
             showOuterVignette
           />
         </div>
@@ -68,7 +72,7 @@ export function PortfolioPage() {
           cy={1}
           cr={1}
           className={cn(
-            "fill-black/8 dark:fill-white/10 opacity-25 fixed inset-0 h-full w-full pointer-events-none z-0 transition-opacity duration-300",
+            "fill-black/[0.04] dark:fill-white/10 opacity-25 fixed inset-0 h-full w-full pointer-events-none z-0 transition-opacity duration-300",
             "[mask-image:radial-gradient(1200px_circle_at_center,white,transparent_80%)]",
           )}
         />
